@@ -3,9 +3,9 @@
 ## Procesamiento de imágenes {align=center}
 
 **Integrantes:**
-- Giuliano Crenna (C-7438/1)
-- Bruno Emmanuel Pace
-- Mariano Sancho 
+- Crenna, Giuliano. Legajo: C-7438/1.
+- Pace, Bruno. Legajo: P-5295/7.
+- Sancho Almenar, Mariano. Legajo: S-5778/9.
 
 ---
 
