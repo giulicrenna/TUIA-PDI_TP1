@@ -248,7 +248,7 @@ def imprimir_lista_final(aprobados:List, reprobados: List) -> None:
         axs[i].axis('off') 
 
     for j, arr in enumerate(reprobados):
-        axs[len(aprobados) + j].imshow(arr, cmap='plasma')  
+        axs[len(aprobados) + j].imshow(arr, cmap='gray')  
         axs[len(aprobados) + j].set_title('Reprobado {}'.format(j + 1))
         axs[len(aprobados) + j].axis('off') 
 
