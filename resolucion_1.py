@@ -12,30 +12,30 @@ umbral_marcado: int = 200
 
 Matlike = np.ndarray
 
-def ecualizacion_local_histograma(img: Matlike, kernel_size: int) -> Matlike:
-    border_size: int = kernel_size // 2
-    img_con_padding: Matlike = cv2.copyMakeBorder(img, border_size, border_size, border_size, border_size, cv2.BORDER_REPLICATE)
+def ecualizacion_local_histograma(img: Matlike, kernel_size: Tuple) -> Matlike:
+    m, n = kernel_size[0], kernel_size[1]
+    img_con_padding: Matlike = cv2.copyMakeBorder(img, n, n, m, m, cv2.BORDER_REPLICATE)
     
     salida: Matlike = np.zeros_like(img)
 
-    for i in range(border_size, img_con_padding.shape[0] - border_size):
-        for j in range(border_size, img_con_padding.shape[1] - border_size):
-            ventana: Matlike = img_con_padding[i - border_size:i + border_size + 1, j - border_size:j + border_size + 1]
+    for i in range(n, img_con_padding.shape[0] - n):
+        for j in range(m, img_con_padding.shape[1] - m):
+            ventana: Matlike = img_con_padding[i - n:i + n + 1, j - m:j + m + 1]
             
             ventana_ecualizada: Matlike = cv2.equalizeHist(ventana)
             
-            salida[i - border_size, j - border_size] = ventana_ecualizada[border_size, border_size]
+            salida[i - n, j - m] = ventana_ecualizada[m, n]
 
     return salida
     
 
 
-def problema_1(path: str) -> None:
+def problema_1(path: str, window_size: Tuple) -> None:
+    window_size_x, window_size_y = window_size
     img: Matlike = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
 
-    ventana_size: int = 20
     img_ecualizada: Matlike = ecualizacion_local_histograma(img=img,
-                                                        kernel_size=ventana_size)
+                                                        kernel_size=window_size)
 
     plt.figure(figsize=(10, 5))
     plt.subplot(1, 2, 1)
@@ -44,12 +44,12 @@ def problema_1(path: str) -> None:
     plt.axis('off')
 
     plt.subplot(1, 2, 2)
-    plt.title(f'Imagen con Ecualización Local (Ventana {ventana_size}x{ventana_size})')
+    plt.title(f'Imagen con Ecualización Local (Ventana {window_size_x}x{window_size_y})')
     plt.imshow(img_ecualizada, cmap='gray')
     plt.axis('off')
 
     plt.show()
     
 if __name__ == '__main__':
-    problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'))
+    problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(10,10))
     
