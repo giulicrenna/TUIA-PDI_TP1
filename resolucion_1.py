@@ -6,10 +6,6 @@ from typing import Dict, List, Tuple
 
 PATH_IMAGENES: str = os.path.join(os.getcwd(), 'data')
 
-clave_respuestas: Dict[int, str] = {1: 'C', 2: 'B', 3: 'A', 4: 'D', 5: 'B', 6: 'B', 7: 'A', 8: 'B', 9: 'D', 10: 'D'}
-tamaño_ventana: Tuple[int, int] = (50, 50)
-umbral_marcado: int = 200
-
 Matlike = np.ndarray
 
 def ecualizacion_local_histograma(img: Matlike, kernel_size: Tuple) -> Matlike:
@@ -50,6 +46,24 @@ def problema_1(path: str, window_size: Tuple) -> None:
 
     plt.show()
     
+"""
+Visualizaciones realizadas.
+problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(3,3))
+problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(4,5))
+problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(7,5))
+problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(10,10))
+problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(10,12))
+problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(12,10))
+problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(12,15))
+problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(20,20))
+problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(100,100))
+problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(5,10))
+"""
+
+
+
 if __name__ == '__main__':
     problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(10,10))
+
+
     
