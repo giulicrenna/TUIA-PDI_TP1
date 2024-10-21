@@ -195,15 +195,25 @@ def plot_recortes(recortes) -> None:
 
         plt.show()
 
+def plot_recorte_unico(recorte) -> None:
+    plt.figure(figsize=(10, 5))
+    plt.title(f"Nombre")
+    plt.imshow(recorte, cmap="gray")
+    plt.axis("off")
 
-if __name__ == "__main__":
-    img: str = os.path.join(PATH_IMAGENES, "examen_2.png")
+    plt.show()
+
+
+def definir_nota(filepath: str):
+    img: str = os.path.join(PATH_IMAGENES, filepath)
 
     img_procesada = cargar_y_procesar_imagen(filepath=img)
 
     detectar_lineas_horizontales(img_bin=img_procesada)
 
     recortes = obtener_recortes(img=img_procesada, mapa_subconjuntos=mapa_subconjuntos)
+    cant_correctas: int = 0
+
     for key, recorte in recortes.items():
         cant_palabras: int = contar_letras(recorte)
 
@@ -217,9 +227,50 @@ if __name__ == "__main__":
 
         borde: int = contar_pixeles(recorte)
         letra: str = determinar_letra(borde)
-
-        (
+        
+        if letra == mapa_correctas[key]:
             print(f"Pregunta {key}: OK")
-            if letra == mapa_correctas[key]
-            else print(f"Pregunta {key}: MAL")
-        )
+            cant_correctas = cant_correctas+1
+        else: print(f"Pregunta {key}: MAL")
+
+    return recortes['nombre'], cant_correctas
+    
+#plot_recorte_unico(recortes["nombre"])
+
+def imprimir_lista_final(aprobados:List, reprobados: List) -> None:
+    total_plots = len(aprobados) + len(reprobados)
+
+    fig, axs = plt.subplots(nrows=1, ncols=total_plots, figsize=(15, 5))
+
+    for i, arr in enumerate(aprobados):
+        axs[i].imshow(arr, cmap='viridis')  
+        axs[i].set_title('Aprobado {}'.format(i + 1))
+        axs[i].axis('off') 
+
+    for j, arr in enumerate(reprobados):
+        axs[len(aprobados) + j].imshow(arr, cmap='plasma')  
+        axs[len(aprobados) + j].set_title('Reprobado {}'.format(j + 1))
+        axs[len(aprobados) + j].axis('off') 
+
+    plt.tight_layout()
+    plt.show()
+
+if __name__ == "__main__":
+    
+    examenes: Dict[int, Tuple[np.ndarray, int]] = {}
+
+    for i in range(1, 6):
+        relative_path: str = f'examen_{i}.png'
+        examenes[i] = definir_nota(relative_path)
+    
+    aprobados: List[np.ndarray] = []
+    reprobados: List[np.ndarray] = []
+
+    for value in examenes.values():
+        if value[1] >= 6:
+            aprobados.append(value[0])
+        else: 
+            reprobados.append(value[0])
+
+    imprimir_lista_final(aprobados,reprobados)
+    
