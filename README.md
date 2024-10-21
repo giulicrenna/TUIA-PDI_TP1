@@ -1,6 +1,7 @@
-# Tecnicatura Universitaria en Inteligencia Artificial {align=center}
-## FCEIA - UNR {align=center}
-## Procesamiento de imágenes {align=center}
+# Tecnicatura Universitaria en Inteligencia Artificial 
+## FCEIA - UNR 
+## Procesamiento de imágenes 
+
 
 **Integrantes:**
 - Crenna, Giuliano. Legajo: C-7438/1.
@@ -38,12 +39,15 @@ pip install -r requirements.txt
 ```bash
 source .venv/bin/activate
 
-python3 main.py
+python3 resolucion_1.py
+python3 resolucion_2.py
 ```
 
 ### Windows
 ```bash
 .\.venv\Scripts\activate
 
-python main.py
+
+python resolucion_1.py
+python resolucion_2.py
 ```
