@@ -149,7 +149,7 @@ def obtener_recortes(
     y devuelve un diccionario con los recortes de las regiones de interés.
     """
 
-    recortes = {}
+    recortes: Dict = {}
 
     for key, (x1, y1, x2, y2) in mapa_subconjuntos.items():
         recorte = img[y1:y2, x1:x2]
@@ -164,7 +164,7 @@ def contar_pixeles(
 ) -> int:
     """
     Esta función recibe una imagen en forma de array de NumPy y retorna la cantidad de píxeles
-    que forman parte de los bordes, utilizando el detector de bordes Canny de OpenCV.
+    que forman parte de los bordes, contando la cantidad de pixeles blancos.
     """
     if len(img_array.shape) == 3:
         img_gray = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
