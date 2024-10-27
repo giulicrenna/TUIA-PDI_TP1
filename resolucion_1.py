@@ -7,25 +7,35 @@ from typing import Dict, List, Tuple
 PATH_IMAGENES: str = os.path.join(os.getcwd(), 'data')
 
 Matlike = np.ndarray
-
-def ecualizacion_local_histograma(img: Matlike, kernel_size: Tuple) -> Matlike:
+def ecualizacion_local_histograma(img: np.ndarray, kernel_size: Tuple[int, int]) -> np.ndarray:
+    """
+    Se solucionaron los problemas.
+    1. Compatibilidad con ventanas M x N cualesquiera.
+    2. Reducción del ruido en la imagen de salida.
+    """
     m, n = kernel_size
-    img_con_padding: Matlike = cv2.copyMakeBorder(img, n, n, m, m, cv2.BORDER_REPLICATE)
-    
-    salida: Matlike = np.zeros_like(img)
+    """
+    Esto garantiza que, sin importar el tamaño de la ventana,
+     siempre haya suficiente espacio alrededor de cada píxel para que la ventana se centre correctamente en él.
+    """
+    pad_y, pad_x = n // 2, m // 2
 
-    for i in range(n, img_con_padding.shape[0] - n): #i,j es el punto central
-        for j in range(m, img_con_padding.shape[1] - m):
-            ventana: Matlike = img_con_padding[i - n:i + n + 1, j - m:j + m + 1]
+    img = cv2.GaussianBlur(img, (5, 5), 0)
+
+    img_con_padding = cv2.copyMakeBorder(img, pad_y, pad_y, pad_x, pad_x, cv2.BORDER_REPLICATE)
+    
+    salida = np.zeros_like(img)
+    
+    for i in range(pad_y, img_con_padding.shape[0] - pad_y):
+        for j in range(pad_x, img_con_padding.shape[1] - pad_x):
+            ventana = img_con_padding[i - pad_y:i + pad_y + 1, j - pad_x:j + pad_x + 1]
             
-            ventana_ecualizada: Matlike = cv2.equalizeHist(ventana)
+            ventana_ecualizada = cv2.equalizeHist(ventana)
             
-            salida[i - n, j - m] = ventana_ecualizada[m, n]
+            salida[i - pad_y, j - pad_x] = ventana_ecualizada[pad_y, pad_x]
 
     return salida
     
-
-
 def problema_1(path: str, window_size: Tuple) -> None:
     window_size_x, window_size_y = window_size
     img: Matlike = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
