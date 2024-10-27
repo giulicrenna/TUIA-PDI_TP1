@@ -85,7 +85,7 @@ problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'
 
 
 if __name__ == '__main__':
-    problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(10,10))
+    problema_1(path=os.path.join(PATH_IMAGENES, 'Imagen_con_detalles_escondidos.tif'),window_size=(25,25))
 
 
     
