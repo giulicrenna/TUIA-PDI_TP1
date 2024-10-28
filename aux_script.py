@@ -1,15 +1,15 @@
 import cv2
 import numpy as np
 
-img = cv2.imread('data/examen_1.png', cv2.IMREAD_GRAYSCALE)
+img = cv2.imread('data/examen_5.png', cv2.IMREAD_GRAYSCALE)
 
 _, img_th = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY_INV)
 
 img_cols = np.sum(img_th, axis=0)
 img_rows = np.sum(img_th, axis=1)
 
-th_col = 500 #500
-th_row = 3500 #3500
+th_col = 50 #500
+th_row = 50 #3500
 
 img_cols_th = img_cols > th_col
 img_rows_th = img_rows > th_row
@@ -33,6 +33,7 @@ def find_line_bounds(lines):
 vertical_bounds = find_line_bounds(img_cols_th)
 horizontal_bounds = find_line_bounds(img_rows_th)
 
+
 img_lines = cv2.cvtColor(img, cv2.IMREAD_GRAYSCALE)
 for (x1, x2) in vertical_bounds:
     cv2.line(img_lines, (x1, 0), (x1, img.shape[0]), (0, 255, 0), 1)
@@ -50,7 +51,7 @@ for i in range(len(horizontal_bounds)-1):
 
         num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(celda_img, 8, cv2.CV_32S)
 
-        th_area = 250  
+        th_area = 4000#3800  
         ix_area = stats[:, -1] > th_area
         stats_filtered = stats[ix_area, :]
         
@@ -58,8 +59,11 @@ for i in range(len(horizontal_bounds)-1):
             x, y, w, h, area = stat
             componente = celda_img[y:y+h, x:x+w]
 
-            cv2.imshow('Componente detectada', componente)
-            cv2.waitKey(0)
+            #cv2.imshow('Componente detectada', componente)
+            #cv2.waitKey(0)
+            #cv2.imshow('celda',celda_img)
+            #cv2.waitKey(0)
+
 
 cv2.destroyAllWindows()
 

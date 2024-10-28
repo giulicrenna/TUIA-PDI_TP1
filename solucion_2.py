@@ -36,12 +36,30 @@ def cargar_y_procesar_imagen(filepath):
 
 img = cargar_y_procesar_imagen(os.path.join(PATH_IMAGENES, 'examen_2.png'))
 
-cv2.imshow('imagen umbralizada', img)
-cv2.waitKey(0)
+img_cols = np.sum(img, axis=0)
+img_rows = np.sum(img, axis=1)
+
+output = cv2.connectedComponentsWithStats(img, 8,cv2.CV_32S)
+
+num_labels, labels, stats, centroids = output
+
+print(f'numero de labels : {num_labels}')
+print(f'labels : {labels}')
+#print(f'stats : {stats}')
+#print(f'centroids : {centroids}')
+
+
+
+
+
+"""
+
+#cv2.imshow('imagen umbralizada', img)
+#cv2.waitKey(0)
 
 edges = cv2.Canny(img, 100, 170, apertureSize=5)
-cv2.imshow('imagen', edges)
-cv2.waitKey(0)
+#cv2.imshow('imagen', edges)
+#cv2.waitKey(0)
 
 f_lines = img.copy()
 lines = cv2.HoughLines(edges, rho=1, theta=np.pi/180, threshold=180)
@@ -63,3 +81,4 @@ for i in range(0,len(lines)):
 cv2.imshow('Lineas', f_lines)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
+"""
