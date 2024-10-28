@@ -14,7 +14,6 @@
 
 ### Linux
 ```bash
-sudo apt install tesseract-ocr
 
 python3 -m venv .venv
 
@@ -24,7 +23,7 @@ pip3 install -r requirements.txt
 ```
 
 ### Windows
-Primero intallar Tesseract desde el siguiente link: [Tesseract](https://github.com/UB-Mannheim/tesseract/releases/download/v5.4.0.20240606/tesseract-ocr-w64-setup-5.4.0.20240606.exe)
+
 ```bash
 python -m venv .venv
 
