@@ -9,7 +9,13 @@ PATH_IMAGENES: str = os.path.join(os.getcwd(), "data")
 Matlike = np.ndarray
 
 
-def imshow(img, new_fig=True, title=None, color_img=False, blocking=False, colorbar=True, ticks=False):
+def imshow(img: Matlike,
+           new_fig: bool=True,
+           title: str=None,
+           color_img: bool=False,
+           blocking: bool=False,
+           colorbar: bool=True,
+           ticks: bool=False) -> None:
     """
     Imprime imágenes, con variables adecuadas.
     """
@@ -39,8 +45,6 @@ def cargar_y_procesar_imagen(filepath: str) -> Matlike:
     return img_bin
 
 
-
-####################################################
 def detectar_lineas(img: Matlike) -> List[Tuple[int,int,int]]:
     """
     Detecta líneas horizontales utilizando morfología OPEN. Retorna los renglones ordenados.
@@ -65,15 +69,12 @@ def detectar_lineas(img: Matlike) -> List[Tuple[int,int,int]]:
 
         # Guarda solo las lineas cuya longitud sea menor a la maxima encontrada (con una tolerancia de 10 pixeles)
         if w < max_renglon-10:
-            #cv2.line(lineas, (x, y), (x + w, y), (255, 0, 0), 2)
             renglones.append((x,y,w))
 
         # Se ordenan los renglones de forma ascendiente la coordenada 'y'. En caso de que haya dos valores iguales, 
         # se ordena de forma ascendiente la coordenada 'x'.  
         renglones_sorted = sorted(renglones, key=lambda renglon: (renglon[1], renglon[0])) 
     
-        #print(renglones_sorted)
-    #imshow(lineas)
     return renglones_sorted
 
     
@@ -127,24 +128,14 @@ def obtener_respuesta(img: Matlike, mapa_subconjuntos: Dict[str, Tuple[int, int,
         # Almacenar el recorte en el diccionario de respuestas
         respuestas[key] = respuesta
     
-    
-    # for key, recorte in respuestas.items(): 
-    #     imshow(recorte, title = key)
         
     return respuestas
 
-
-####################################################
 def validaciones_header(key, recorte): 
 
     num_labels, labels, stats, centroids = cv2.connectedComponentsWithStats(recorte, connectivity=8)
 
     im_color = cv2.applyColorMap(np.uint8(255/num_labels*labels), cv2.COLORMAP_JET)
-    # for centroid in centroids:
-    #     cv2.circle(im_color, tuple(np.int32(centroid)), 9, color=(255,255,255), thickness=-1)
-    # for st in stats:
-        # cv2.rectangle(im_color,(st[0],st[1]),(st[0]+st[2],st[1]+st[3]),color=(0,255,0),thickness=2)
-    # imshow(img=im_color, color_img=True)
     
     if key == 'Nombre': 
         
@@ -176,8 +167,6 @@ def validaciones_header(key, recorte):
             return True        
         return False
 
-
-####################################################
 def contar_pixeles(
     img_array: Matlike, umbral_min: int = 100, umbral_max: int = 200
 ) -> int:
@@ -194,8 +183,6 @@ def contar_pixeles(
 
     return cantidad_pixeles    
 
-
-####################################################
 def validaciones_preguntas(key: str, recorte: Matlike) -> bool: 
     """
     Corrige cada ejercicio. Retorna True o False
@@ -224,21 +211,10 @@ def validaciones_preguntas(key: str, recorte: Matlike) -> bool:
     else:
         return False
     
-
-
-####################################################
-# resolucion #
-####################################################
-
-
- 
 def definir_examen(img: Matlike):
     renglones = detectar_lineas(img)
-    #print(renglones)
     mapa_subconjuntos = check_and_set(renglones)
-    #print(mapa_subconjuntos)
     respuestas = obtener_respuesta(img, mapa_subconjuntos)
-    #print(respuestas)
     correctas: int = 0
     examen_final = {}
     for key, recorte in respuestas.items():
